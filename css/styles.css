@@ -18,6 +18,8 @@ body {
   padding: 10px;
   background: #fff;
   border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #board li {
@@ -30,6 +32,13 @@ body {
   line-height: 40px;
   text-align: center;
   box-shadow: 0 4px 0 #0088cc;
+}
+
+#board li.pressed {
+  background: #ccc;
+  box-shadow: none;
+  margin-top: 9px;
+  margin-bottom: 1px;
 }
 
 #timer {
