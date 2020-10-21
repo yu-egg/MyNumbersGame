@@ -22,12 +22,12 @@
     }
 
     check() {
-      if (currentNum === parseInt(this.el.textContent, 10)) { //どうするかというと、 currentNum と押し込んだパネルの数値が合っているか比較したいのですが、 this.el.textContent は文字列なので、 parseInt() で数値にしてあげて、比較してあげます。
+      if (this.game.getCurrentNum() === parseInt(this.el.textContent, 10)) { //どうするかというと、 currentNum と押し込んだパネルの数値が合っているか比較したいのですが、 this.el.textContent は文字列なので、 parseInt() で数値にしてあげて、比較してあげます。
         this.el.classList.add('pressed');  //もし一致していたら、つまり正解だったら、押し込まれるようにしたいので、 pressed クラスを付けてあげて、次の数値を選べるように currentNum を 1 増やしてあげれば OK でしょう。
-        currentNum++;
+        this.game.addCurrentNum();
 
-        if (currentNum === 4) {  //あとは、全部パネルを押し込んだときに止めればいいので、 check() の中で currentNum を更新したあとに、条件分岐してあげましょう。
-          clearTimeout(timeoutId); //currentNum が 4 だったらタイマーを止めればいいので clearTimeout() としてあげて timeoutId を渡してあげれば OK でしょう。
+        if (this.game.getCurrentNum() === 4) {  //あとは、全部パネルを押し込んだときに止めればいいので、 check() の中で currentNum を更新したあとに、条件分岐してあげましょう。
+          clearTimeout(this.game.getTimeoutId()); //currentNum が 4 だったらタイマーを止めればいいので clearTimeout() としてあげて timeoutId を渡してあげれば OK でしょう。
         }
       }
     }
@@ -95,6 +95,19 @@
       this.timeoutId = setTimeout(() => {  //あとは setTimeout() で この runTimer() 自身を呼び出していけばいいので、 10 ミリ秒後に呼び出す、と書いてあげましょう。
         this.runTimer();
       }, 10);
+    }
+
+    addCurrentNum() {
+      this.currentNum++;
+    }
+    
+    addCurrentNum() {
+      return this.currentNum;
+    }
+
+  
+    getTimeoutId() {
+      return this.timeoutId;
     }
   }
 
