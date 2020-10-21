@@ -7,6 +7,10 @@
       this.el = document.createElement('li');  //li 要素をプロパティとして持たせたいので、プロパティ名は、 element の el としてあげつつ、 document.createElement('li') としてあげればいいでしょう。
       this.el.classList.add('pressed');  //これで、 pressed クラスがついた li 要素を 4 つ持つボードができたので、続きは次回にしていきましょう。
     }
+
+    getEl() {  //では、どうするかというと、 getEl() というメソッドを作ってあげて、単に el プロパティを返せばいいので、 return this.el; としてあげましょう。
+      return this.el;
+    }
   }
 
   class Board { //まずはパネルを管理する Board クラスを作ってあげましょう。
@@ -15,6 +19,14 @@
       for (let i = 0; i < 4; i++) {  //そのうえで、パネルを 4 枚作りたいので、ループを回してあげましょう。
         this.panels.push(new Panel());  //では、どうするかというと、 this.panels に対してあとで作っていく Panel クラスのインスタンスを push() してあげればいいですね。
       }
+      this.setup();  //では、 Board クラスの中に、 setup() というメソッドを作って、コンストラクターのほうではそれを呼び出すだけにしてあげましょう。
+    }
+    setup() {  //では、こちらの setup() メソッドですが、ますは board 要素を取得しておきます
+      const board = document.getElementById('board');  //setup() の中でしか使わないので、プロパティにする必要はなくて const で定数で宣言しておきましょう。
+      this.panels.forEach(panel => {  //そのうえで panels の数だけ要素を追加していけばいいので、 forEach() を使っていきます。
+        // board.appendChild(panel.el);今回追加するのは li 要素なので、 panel の el プロパティを追加してあげればよいのですけれども、実はクラスのプロパティに外部から直接アクセスしないほうがよいとされているので、こちらのプロパティはメソッド経由で取得するようにしてあげたほうがいいでしょう。
+        board.appendChild(panel.getEl());  //では、いったんこちらコメントにしてあげて、 getElement という意味で getEl() というメソッドを Panel クラスのほうにあとで作っていきましょう。それから、こちらのように直接プロパティにアクセスせずに、わざわざメソッドを作ってアクセスすることをオブジェクト思考のカプセル化と呼びます
+      });
     }
   }
 
