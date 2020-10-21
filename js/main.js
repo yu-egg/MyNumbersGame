@@ -24,6 +24,10 @@
       if (currentNum === parseInt(this.el.textContent, 10)) { //どうするかというと、 currentNum と押し込んだパネルの数値が合っているか比較したいのですが、 this.el.textContent は文字列なので、 parseInt() で数値にしてあげて、比較してあげます。
         this.el.classList.add('pressed');  //もし一致していたら、つまり正解だったら、押し込まれるようにしたいので、 pressed クラスを付けてあげて、次の数値を選べるように currentNum を 1 増やしてあげれば OK でしょう。
         currentNum++;
+
+        if (currentNum === 4) {  //あとは、全部パネルを押し込んだときに止めればいいので、 check() の中で currentNum を更新したあとに、条件分岐してあげましょう。
+          clearTimeout(timeoutId); //currentNum が 4 だったらタイマーを止めればいいので clearTimeout() としてあげて timeoutId を渡してあげれば OK でしょう。
+        }
       }
     }
   }
@@ -54,12 +58,26 @@
     }
   }
 
+  function runTimer() { //どうするかというと、まずはタイマー要素を取得していきましょう
+    const timer = document.getElementById('timer'); //id を振っておいたので、 getElementById('timer') でいいですね。
+    timer.textContent = ((Date.now() - startTime) / 1000).toFixed(2); //そのうえで、その中身を更新してあげればいいので、現在の時刻から START ボタンを押したときの時刻を引いてあげるのですが、ミリ秒単位なので 1000 で割ってあげて、小数点以下 2 桁までを表示するために toFixed() を使ってあげましょう。
+
+    timeoutId = setTimeout(() => {  //あとは setTimeout() で この runTimer() 自身を呼び出していけばいいので、 10 ミリ秒後に呼び出す、と書いてあげましょう。
+      runTimer();
+    }, 10);
+  }
+
   const board = new Board();  //const board = new Board(); でいいですね。
 
   let currentNum = 0;  //まずは、今押し込むべき数値を currentNum で保持しておきたいと思います。最初は 0 でいいですね
+  let startTime;
+  let timeoutId;  //では、タイマーを止めるための setTimeout() の返り値が必要なので、変数を宣言しておきます。
 
   const btn = document.getElementById('btn'); //では document.getElementById('btn') で btn 要素を取得してあげて、そのうえで addEventListener() としてあげましょう。
   btn.addEventListener('click', () => {  //では、クリックしたら次の処理をしてね、と書いていきます。
     board.activate(); //こちらではゲームが始まるようにしたいので、 board に activate() というメソッドをあとで作ることにして、それをここで呼び出してあげましょう。
+
+    startTime = Date.now(); //では startTime という変数を宣言しつつ、ボタンを押したときの現在時刻を保持しておきたいので、このあたりで startTime = Date.now(); と書いてあげればいいでしょう。
+    runTimer(); //あとはタイマーを走らせればいいので、 runTimer() という関数を作っていきます。
   });
 }
