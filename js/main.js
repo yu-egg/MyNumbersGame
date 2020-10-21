@@ -75,6 +75,11 @@
 
   const btn = document.getElementById('btn'); //では document.getElementById('btn') で btn 要素を取得してあげて、そのうえで addEventListener() としてあげましょう。
   btn.addEventListener('click', () => {  //では、クリックしたら次の処理をしてね、と書いていきます。
+    if (typeof timeoutId !== 'undefined') {  //まず、 START ボタンを何度かクリックしたあとにクリアしても、タイマーが止まらないのがわかります。これは、ボタンを押すたびにタイマーが走ってしまうからですね。もし timeoutId が undefined でなければ、つまりすでにタイマーが走っていたら、それを止めてあげればいいでしょう。
+      clearTimeout(timeoutId); //clearTimeout() を使って、 timeoutId としてあげます
+    }
+
+    currentNum = 0; //それから、 START ボタンを押して 0, 1 としたあとに、また START ボタンを押して 0 を押そうとすると、うまく押せないのがわかります。これは currentNum をリセットしていないからですね,したがって、 currentNum は START ボタンを押すたびにリセットされるべきなので、こちらは宣言だけにしてあげて、 START ボタンを押したときに currentNum は 0 になるようにしてあげましょう。
     board.activate(); //こちらではゲームが始まるようにしたいので、 board に activate() というメソッドをあとで作ることにして、それをここで呼び出してあげましょう。
 
     startTime = Date.now(); //では startTime という変数を宣言しつつ、ボタンを押したときの現在時刻を保持しておきたいので、このあたりで startTime = Date.now(); と書いてあげればいいでしょう。
