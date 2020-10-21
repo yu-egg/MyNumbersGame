@@ -11,6 +11,11 @@
     getEl() {  //では、どうするかというと、 getEl() というメソッドを作ってあげて、単に el プロパティを返せばいいので、 return this.el; としてあげましょう。
       return this.el;
     }
+
+    activate(num) { //パネルに配置する数値が渡ってくるので、とりあえず num という引数で受けてあげましょう。
+      this.el.classList.remove('pressed'); //ここで何をするかというと、パネルから pressed クラスをとりあえず外したいので、 classList を使って classList.remove('pressed') としてあげましょう。
+      this.el.textContent = num; //ここで何をするかというと、パネルから pressed クラスをとりあえず外したいので、 classList を使って classList.remove('pressed') としてあげましょう。
+    }
   }
 
   class Board { //まずはパネルを管理する Board クラスを作ってあげましょう。
@@ -28,7 +33,18 @@
         board.appendChild(panel.getEl());  //では、いったんこちらコメントにしてあげて、 getElement という意味で getEl() というメソッドを Panel クラスのほうにあとで作っていきましょう。それから、こちらのように直接プロパティにアクセスせずに、わざわざメソッドを作ってアクセスすることをオブジェクト思考のカプセル化と呼びます
       });
     }
+
+    activate() { //では Board クラスに activate() メソッドを作っていきます.どうするかというと、こちらではパネルから pressed クラスを外して、数値を配置してあげればいいですね。
+      this.panels.forEach(panel => {  //それぞれのパネルに対して、処理をしたいので forEach() で回してきます。
+        panel.activate(0); //それぞれのパネルは panel で取得できているので、 panel のほうにも activate するという意味で、同名のメソッドを作ってあげることにして、とりあえずこちらで呼び出していきましょう。配置する数値を渡したいのですが、あとでランダムにしていくのですが、とりあえず全部 0 で作ってみましょう。
+      });
+    }
   }
 
   const board = new Board();  //const board = new Board(); でいいですね。
+
+  const btn = document.getElementById('btn'); //では document.getElementById('btn') で btn 要素を取得してあげて、そのうえで addEventListener() としてあげましょう。
+  btn.addEventListener('click', () => {  //では、クリックしたら次の処理をしてね、と書いていきます。
+    board.activate(); //こちらではゲームが始まるようにしたいので、 board に activate() というメソッドをあとで作ることにして、それをここで呼び出してあげましょう。
+  });
 }
