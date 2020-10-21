@@ -6,6 +6,9 @@
     constructor() {  //では、このあたりに Panel クラスを作ってあげて、コンストラクターの設定をしていきます。
       this.el = document.createElement('li');  //li 要素をプロパティとして持たせたいので、プロパティ名は、 element の el としてあげつつ、 document.createElement('li') としてあげればいいでしょう。
       this.el.classList.add('pressed');  //これで、 pressed クラスがついた li 要素を 4 つ持つボードができたので、続きは次回にしていきましょう。
+      this.el.addEventListener('click', () => { //this.el に対して addEventListener() としてあげて、 click したら次のことをしてね、と書いてあげましょう。
+        this.check();  //とりあえず、 check() というメソッドにしてあげて、下のほうでメソッドを作っていきましょう。
+      })
     }
 
     getEl() {  //では、どうするかというと、 getEl() というメソッドを作ってあげて、単に el プロパティを返せばいいので、 return this.el; としてあげましょう。
@@ -15,6 +18,13 @@
     activate(num) { //パネルに配置する数値が渡ってくるので、とりあえず num という引数で受けてあげましょう。
       this.el.classList.remove('pressed'); //ここで何をするかというと、パネルから pressed クラスをとりあえず外したいので、 classList を使って classList.remove('pressed') としてあげましょう。
       this.el.textContent = num; //ここで何をするかというと、パネルから pressed クラスをとりあえず外したいので、 classList を使って classList.remove('pressed') としてあげましょう。
+    }
+
+    check() {
+      if (currentNum === parseInt(this.el.textContent, 10)) { //どうするかというと、 currentNum と押し込んだパネルの数値が合っているか比較したいのですが、 this.el.textContent は文字列なので、 parseInt() で数値にしてあげて、比較してあげます。
+        this.el.classList.add('pressed');  //もし一致していたら、つまり正解だったら、押し込まれるようにしたいので、 pressed クラスを付けてあげて、次の数値を選べるように currentNum を 1 増やしてあげれば OK でしょう。
+        currentNum++;
+      }
     }
   }
 
@@ -45,6 +55,8 @@
   }
 
   const board = new Board();  //const board = new Board(); でいいですね。
+
+  let currentNum = 0;  //まずは、今押し込むべき数値を currentNum で保持しておきたいと思います。最初は 0 でいいですね
 
   const btn = document.getElementById('btn'); //では document.getElementById('btn') で btn 要素を取得してあげて、そのうえで addEventListener() としてあげましょう。
   btn.addEventListener('click', () => {  //では、クリックしたら次の処理をしてね、と書いていきます。
