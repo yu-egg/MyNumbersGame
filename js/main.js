@@ -3,7 +3,8 @@
 //完成版を見ると、ゲームの最初では、パネルは数字がない状態で pressed クラスがついているので、そういった li 要素を作ってあげれば良いでしょう。
 { 
   class Panel { //Panel クラスを作っていきましょう。
-    constructor() {  //では、このあたりに Panel クラスを作ってあげて、コンストラクターの設定をしていきます。
+    constructor(game) {  //では、このあたりに Panel クラスを作ってあげて、コンストラクターの設定をしていきます。
+      this.game = game;
       this.el = document.createElement('li');  //li 要素をプロパティとして持たせたいので、プロパティ名は、 element の el としてあげつつ、 document.createElement('li') としてあげればいいでしょう。
       this.el.classList.add('pressed');  //これで、 pressed クラスがついた li 要素を 4 つ持つボードができたので、続きは次回にしていきましょう。
       this.el.addEventListener('click', () => { //this.el に対して addEventListener() としてあげて、 click したら次のことをしてね、と書いてあげましょう。
@@ -33,10 +34,11 @@
   }
 
   class Board { //まずはパネルを管理する Board クラスを作ってあげましょう。
-    constructor(){  //コンストラクターを書いてあげて、ここでインスタンスを作っておいてあげます。
+    constructor(game){  //コンストラクターを書いてあげて、ここでインスタンスを作っておいてあげます。
+      this.game = game
       this.panels = [];  //では、コンストラクターの処理ですが、パネルを管理したいので、とりあえずプロパティで配列として持っておきましょう。
       for (let i = 0; i < 4; i++) {  //そのうえで、パネルを 4 枚作りたいので、ループを回してあげましょう。
-        this.panels.push(new Panel());  //では、どうするかというと、 this.panels に対してあとで作っていく Panel クラスのインスタンスを push() してあげればいいですね。
+        this.panels.push(new Panel(this.game));  //では、どうするかというと、 this.panels に対してあとで作っていく Panel クラスのインスタンスを push() してあげればいいですね。
       }
       this.setup();  //では、 Board クラスの中に、 setup() というメソッドを作って、コンストラクターのほうではそれを呼び出すだけにしてあげましょう。
     }
@@ -62,7 +64,7 @@
 
   class Game { //では Game クラスを作ってあげて、コンストラクターにざっとコードを移動させてしまいましょう。
     constructor() {
-      this.board = new Board();  //const board = new Board(); でいいですね。1:12そのうえで、このあたりですが Game クラスのプロパティにしてあげます。this としてあげればいいですね。
+      this.board = new Board(this);  //const board = new Board(); でいいですね。1:12そのうえで、このあたりですが Game クラスのプロパティにしてあげます。this としてあげればいいですね。
 
       this.currentNum = undefined;  //まずは、今押し込むべき数値を currentNum で保持しておきたいと思います。最初は 0 でいいですね
       this.startTime = undefined; //それから値が決まっていないものに関しては undefined としておきます
