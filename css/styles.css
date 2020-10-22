@@ -6,6 +6,21 @@ body {
   font-weight: bold;
 }
 
+#top-container {
+  height: 40px;
+  background-color: snow;
+  border-radius: 10px;
+  color: lightpink;
+  text-align: center;
+  justify-content: center;
+  padding-top: 6px;
+  font-style: italic;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: x-large;
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
 #container {
     /* 50px * 2 + 10px * 2 */
     margin: 16px auto;
